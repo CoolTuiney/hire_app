@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hire_app/screens/register_screen.dart';
-import 'package:hire_app/utils/extensions.dart';
+import 'package:get/get.dart';
 
 import '../utils/app_theme.dart';
 import '../utils/common_widget.dart';
 import '../utils/custom_text.dart';
-import 'home_screen.dart';
+import 'main_screen.dart';
 
 class WorkPreference extends StatelessWidget {
   const WorkPreference({super.key});
@@ -50,7 +49,8 @@ class WorkPreference extends StatelessWidget {
                 context: context,
                 title: "Submit",
                 onTap: () {
-                  CommonWidget.replaceTo(context, const HomeScreen());
+                  Get.until((route) => Get.currentRoute == '/');
+                  CommonWidget.replaceTo(context, const MainScreen());
                 }),
           ).paddingOnly(top: 30.h)
         ]).paddingSymmetric(horizontal: 15.h, vertical: 10.h),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hire_app/utils/extensions.dart';
 
@@ -21,6 +22,7 @@ class CommonWidget {
   static goTo(BuildContext context, Widget screen) {
     Navigator.push(context, _createRoute(screen));
   }
+
   static replaceTo(BuildContext context, Widget screen) {
     Navigator.push(context, _createRoute(screen));
   }
@@ -204,4 +206,69 @@ class DashedLinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class CustomTF extends StatefulWidget {
+  const CustomTF(
+      {super.key,
+      this.hint = "",
+      this.lable,
+      this.helperTxt,
+      this.keyboardType,
+      this.showObscure = false,
+      this.validator,
+      this.formatter});
+  final String? lable;
+  final String? hint;
+  final String? helperTxt;
+  final TextInputType? keyboardType;
+  final bool showObscure;
+  final Function(String, String)? validator;
+  final List<TextInputFormatter>? formatter;
+  @override
+  State<CustomTF> createState() => _CustomTFState();
+}
+
+class _CustomTFState extends State<CustomTF> {
+  late bool isObsure;
+
+  @override
+  void initState() {
+    super.initState();
+    isObsure = widget.showObscure;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: widget.keyboardType,
+      obscureText: isObsure,
+      inputFormatters: widget.formatter,
+      validator: (value) {
+        if (widget.validator != null) {
+          return widget.validator!(value ?? "", widget.hint!);
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        // isDense: true,
+        helperText: widget.helperTxt,
+        labelText: widget.lable,
+        hintText: widget.hint,
+        suffixIcon: GestureDetector(
+            onTap: () => setState(() => isObsure = !isObsure),
+            child: Icon(
+              (isObsure) ? Icons.visibility : Icons.visibility_off,
+              size: 24,
+              color: AppTheme.lightPrimaryColor,
+            )).visible(isVisible: widget.showObscure),
+        labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
+        helperStyle: const TextStyle(color: AppTheme.secondaryTextColor),
+        hintStyle: const TextStyle(color: AppTheme.secondaryTextColor),
+        border: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+      ),
+    );
+  }
 }
