@@ -24,7 +24,7 @@ class CommonWidget {
   }
 
   static replaceTo(BuildContext context, Widget screen) {
-    Navigator.push(context, _createRoute(screen));
+    Navigator.pushReplacement(context, _createRoute(screen));
   }
 
   static Route _createRoute(Widget screen) {
