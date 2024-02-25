@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:hire_app/controllers/profile_screen_controller.dart';
 import 'package:hire_app/utils/app_theme.dart';
 import 'package:hire_app/utils/common_widget.dart';
 
@@ -28,41 +30,53 @@ import 'employment_details_screen.dart';
 //   "photo": "string"
 // }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final profileController = Get.find<ProfileScreenController>();
+  final profileData =
+      Get.find<ProfileScreenController>().getEmployeeDetailModel?.data;
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        avatarHeader(),
-        const PersonalDetailCard(),
-        skillDetailsWidgetList()
-      ],
+    return Obx(
+      () => (profileController.isLoading.value)
+          ? CommonWidget.showLoader()
+          : Column(
+              children: [
+                avatarHeader(),
+                PersonalDetailCard(),
+                skillDetailsWidgetList()
+              ],
+            ),
     );
   }
 
   Widget skillDetailsWidgetList() {
-    final periodList = [
-      "Flutter",
-      "Dart",
-      "Native",
-      "Firebase",
-      "SQLite",
-      "Mobile App Development",
-    ];
+    final periodList =
+        profileData?.keySkills?.removeAllWhitespace.split(",") ?? [];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText.title(text: "Skills", isBold: true)
-            .paddingSymmetric(vertical: 5.h, horizontal: 5.h),
+        SizedBox(
+          width: double.infinity,
+          child: CustomText.title(text: "Skills", isBold: true)
+              .paddingSymmetric(vertical: 5.h, horizontal: 5.h),
+        ),
         Wrap(
             children: periodList
                 .map((e) => CustomActionChip(title: e, onPressed: (s) {})
                     .paddingSymmetric(horizontal: 0.h))
                 .toList()),
       ],
-    ).paddingSymmetric(horizontal: 15.h);
+    )
+        .paddingSymmetric(horizontal: 15.h)
+        .visible(isVisible: periodList.isNotEmpty);
   }
 
   Column avatarHeader() {
@@ -79,19 +93,48 @@ class ProfileScreen extends StatelessWidget {
           ).paddingSymmetric(vertical: 5.h),
         ),
         CustomText.title(text: "Abhay Sharma", size: 16, isBold: true),
-        CustomText.title(text: "iOS Developer", size: 12),
+        CustomText.title(
+            text:
+                profileController.getEmployeeDetailModel?.data?.jobTitle ?? "",
+            size: 12),
       ],
     );
+  }
+
+  String getInitials(String name) {
+    // Split the name into individual words
+    List<String> words = name.split(' ');
+
+    // Initialize an empty string to store initials
+    String initials = '';
+
+    // Iterate through the words and append the first character of each word to the initials
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isNotEmpty) {
+        initials += words[i][0].toUpperCase();
+        if (initials.length == 2) {
+          break; // Exit loop if we have two initials
+        }
+      }
+    }
+
+    return initials;
   }
 }
 
 class PersonalDetailCard extends StatelessWidget {
-  const PersonalDetailCard({
+  PersonalDetailCard({
     super.key,
   });
 
+  final profileController = Get.find<ProfileScreenController>();
+  final profileData =
+      Get.find<ProfileScreenController>().getEmployeeDetailModel?.data;
   @override
   Widget build(BuildContext context) {
+    var exp =
+        getExpText(profileData?.experienceYears, profileData?.experienceMonth);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -105,23 +148,32 @@ class PersonalDetailCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  singleDataCol(label: "Year of Experience", value: "2 Yrs"),
-                  singleDataCol(label: "Preferred Location", value: "Mumbai"),
-                ],
-              ).paddingOnly(bottom: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  singleDataCol(label: "Current Salary", value: "50 LPA"),
-                  singleDataCol(label: "Preferred Salary", value: "1 Cr"),
-                ],
-              ).paddingOnly(bottom: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  singleDataCol(label: "Education", value: "MCA"),
+                  singleDataCol(label: "Year of Experience", value: exp),
                   singleDataCol(
-                      label: "University", value: "Mumbai University"),
+                      label: "Preferred Location",
+                      value: profileData?.prefferedLocation ?? ""),
+                ],
+              ).paddingOnly(bottom: 8.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  singleDataCol(
+                      label: "Current Salary",
+                      value: profileData?.currentSalary ?? ""),
+                  singleDataCol(
+                      label: "Preferred Salary",
+                      value: profileData?.preferredSalary ?? ""),
+                ],
+              ).paddingOnly(bottom: 8.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  singleDataCol(
+                      label: "Education",
+                      value: profileData?.educationDetails ?? ""),
+                  singleDataCol(
+                      label: "University",
+                      value: profileData?.univercityName ?? ""),
                 ],
               ),
             ],
@@ -129,6 +181,31 @@ class PersonalDetailCard extends StatelessWidget {
         ),
       ],
     ).paddingSymmetric(vertical: 15.h, horizontal: 15.h);
+  }
+
+  String getExpText(String? yrs, String? month) {
+    // Convert yrs and month to integers, handling null values
+    int years = yrs != null ? int.tryParse(yrs) ?? 0 : 0;
+    int months = month != null ? int.tryParse(month) ?? 0 : 0;
+
+    // Handle cases where both years and months are 0
+    if (years == 0 && months == 0) {
+      return "-";
+    }
+
+    // Construct the output string based on the provided values
+    String result = '';
+    if (years > 0) {
+      result += '$years Yrs';
+      if (months > 0) {
+        result += ' ';
+      }
+    }
+    if (months > 0) {
+      result += '$months Months';
+    }
+
+    return result.trim();
   }
 
   Widget singleDataCol({required String label, required String value}) {
@@ -142,5 +219,25 @@ class PersonalDetailCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getInitials(String name) {
+    // Split the name into individual words
+    List<String> words = name.split(' ');
+
+    // Initialize an empty string to store initials
+    String initials = '';
+
+    // Iterate through the words and append the first character of each word to the initials
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isNotEmpty) {
+        initials += words[i][0].toUpperCase();
+        if (initials.length == 2) {
+          break; // Exit loop if we have two initials
+        }
+      }
+    }
+
+    return initials;
   }
 }

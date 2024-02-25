@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hire_app/utils/common_widget.dart';
 
 import '../models/user_register_model.dart';
 import '../service/dio_client.dart';
@@ -9,9 +10,7 @@ class RegisterScreenController extends GetxController {
   var isLoading = false.obs;
   UserRegisterModel? userRegisterModel;
 
-  
-  getOrderSummary() async {
-    isLoading.value = true;
+  registerUser() async {
     var arg = {
       "umId": 0,
       "fullName": "string",
@@ -20,9 +19,10 @@ class RegisterScreenController extends GetxController {
       "mobileNumber": "string",
       "token": "string"
     };
-    var res = await DioClient().get(EndPoints.userRegsiter, queryParam: arg);
+
+    var res = await CommonWidget.apiCallWithLoading(
+        DioClient().get(EndPoints.userRegsiter, queryParam: arg));
     userRegisterModel =
         jsonToObject<UserRegisterModel>(res, userRegisterModelFromJson);
-    isLoading.value = false;
   }
 }

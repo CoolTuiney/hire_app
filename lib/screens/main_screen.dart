@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hire_app/controllers/%E1%B8%A5ome_screen_controller.dart';
+import 'package:hire_app/controllers/profile_screen_controller.dart';
 import 'package:hire_app/screens/home_screen.dart';
 import 'package:hire_app/screens/profile_screen.dart';
 import 'package:hire_app/utils/app_theme.dart';
@@ -20,6 +22,8 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> body = [const HomeScreen(), const ProfileScreen()];
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.put(HomeScreenController());
+    final profileController = Get.put(ProfileScreenController());
     return Scaffold(
       appBar: CommonWidget.appBar(title: ""),
       body: body[selectedIndex],

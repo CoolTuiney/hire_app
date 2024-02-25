@@ -160,6 +160,37 @@ class CommonWidget {
     );
   }
 
+  static Future<T> apiCallWithLoading<T>(Future<T> fun) {
+    return Get.showOverlay(
+      asyncFunction: () {
+        return fun;
+      },
+      opacityColor: Colors.grey,
+      loadingWidget: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Container(
+            height: 70.h,
+            width: 200.h,
+            alignment: Alignment.center,
+            decoration: CommonWidget.containerDecoration(color: Colors.white),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 25.h,
+                  width: 25.h,
+                  child: const CircularProgressIndicator(),
+                ).paddingOnly(right: 15.h),
+                CustomText.title(text: 'Please wait..', size: 16)
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   // static Future<T> apiCallWithLoading<T>(Future<T> fun) {
   //   return Get.showOverlay(
   //     asyncFunction: () {
