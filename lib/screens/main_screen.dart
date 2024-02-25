@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:hire_app/screens/home_screen.dart';
 import 'package:hire_app/screens/profile_screen.dart';
 import 'package:hire_app/utils/app_theme.dart';

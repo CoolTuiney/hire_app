@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:hire_app/controllers/employeement_detail_controller.dart';
 import 'package:hire_app/screens/register_screen.dart';
 import 'package:hire_app/screens/skill_details_screen.dart';
 import 'package:hire_app/utils/app_theme.dart';
@@ -17,14 +19,7 @@ class EmploymentDetailsScreen extends StatefulWidget {
 }
 
 class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
-  final periodList = [
-    ChipsDetails(title: "15 days or less"),
-    ChipsDetails(title: "1 Month"),
-    ChipsDetails(title: "2 Month"),
-    ChipsDetails(title: "3 Month"),
-    ChipsDetails(title: "More than 3 Months"),
-    ChipsDetails(title: "Serving notice period")
-  ];
+  final empmentController = Get.put(EmployeementDetailController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +46,10 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
                     width: 80.h,
                     child: Row(
                       children: [
-                        const Expanded(child: CustomTF(hint: "Eg. 1")),
+                        Expanded(
+                            child: CustomTF(
+                                hint: "Eg. 1",
+                                controller: empmentController.yearExpTextCont)),
                         CustomText.title(text: "years")
                       ],
                     )).paddingOnly(right: 20.h),
@@ -59,15 +57,27 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
                     child: Row(
                   children: [
                     SizedBox(
-                        width: 50.h, child: const CustomTF(hint: "Eg. 10")),
+                        width: 50.h,
+                        child: CustomTF(
+                            hint: "Eg. 10",
+                            controller: empmentController.monthsExpTextCont)),
                     CustomText.title(text: "months")
                   ],
                 )),
               ],
             ).paddingOnly(bottom: 20.h),
-            const CustomTF(hint: "Your company name").paddingOnly(bottom: 20.h),
-            const CustomTF(hint: "Your job title").paddingOnly(bottom: 20.h),
-            const CustomTF(hint: "Current salary").paddingOnly(bottom: 20.h),
+            CustomTF(
+              hint: "Your company name",
+              controller: empmentController.companyNameTextCont,
+            ).paddingOnly(bottom: 20.h),
+            CustomTF(
+                    hint: "Your job title",
+                    controller: empmentController.jobTitleTextCont)
+                .paddingOnly(bottom: 20.h),
+            CustomTF(
+                    hint: "Current salary",
+                    controller: empmentController.currSalaryTextCont)
+                .paddingOnly(bottom: 20.h),
             CustomText.title(text: 'Current work duration', isBold: true),
             Row(
               children: [
@@ -110,16 +120,17 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
 
   Widget noticePeriodWidgetList() {
     return Wrap(
-        children: periodList
+        children: empmentController.periodList
             .map((e) => CustomActionChip(
                   title: e.title,
                   isSelected: e.isSelected,
                   onPressed: (p0) {
-                    for (var e in periodList) {
+                    for (var e in empmentController.periodList) {
                       e.isSelected = false;
                     }
                     e.isSelected = true;
                     setState(() {});
+                    empmentController.noticePeriod.value = e.title;
                   },
                 ).paddingSymmetric(horizontal: 5.h))
             .toList());

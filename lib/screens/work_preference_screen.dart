@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hire_app/controllers/employeement_detail_controller.dart';
 
 import '../utils/app_theme.dart';
 import '../utils/common_widget.dart';
@@ -12,6 +13,7 @@ class WorkPreference extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final empmentController = Get.find<EmployeementDetailController>();
     return Scaffold(
       appBar: CommonWidget.appBar(title: ""),
       body: SingleChildScrollView(
@@ -32,15 +34,17 @@ class WorkPreference extends StatelessWidget {
               CustomText.title(text: "₹", size: 16),
               SizedBox(
                   width: 80.h,
-                  child: const CustomTF(
+                  child: CustomTF(
                     keyboardType: TextInputType.number,
+                    controller: empmentController.preferredSalaryTextCont,
                   )).paddingSymmetric(horizontal: 5.h),
               CustomText.title(text: "per year.")
             ],
           ).paddingOnly(bottom: 20.h),
-          const CustomTF(
+          CustomTF(
             lable: "Preferred work location",
             hint: "Eg. Mumbai, Pune, Banglore",
+            controller: empmentController.perferredWorkLocationTextCont,
           ),
           Align(
             alignment: Alignment.bottomCenter,

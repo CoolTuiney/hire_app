@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:hire_app/screens/employment_details_screen.dart';
 import 'package:hire_app/utils/app_theme.dart';
 import 'package:hire_app/utils/common_widget.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:hire_app/controllers/employeement_detail_controller.dart';
 import 'package:hire_app/screens/register_screen.dart';
 import 'package:hire_app/screens/work_preference_screen.dart';
 import 'package:hire_app/utils/common_widget.dart';
@@ -9,9 +11,15 @@ import '../utils/app_theme.dart';
 import '../utils/custom_text.dart';
 import 'employment_details_screen.dart';
 
-class SkillDetailsScreen extends StatelessWidget {
+class SkillDetailsScreen extends StatefulWidget {
   const SkillDetailsScreen({super.key});
 
+  @override
+  State<SkillDetailsScreen> createState() => _SkillDetailsScreenState();
+}
+
+class _SkillDetailsScreenState extends State<SkillDetailsScreen> {
+  final empmentController = Get.find<EmployeementDetailController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,9 +39,11 @@ class SkillDetailsScreen extends StatelessWidget {
             ).paddingOnly(
               bottom: 20.h,
             ),
-            const CustomTF(
-              hint: "Eg. Sales, Marketing, iOS developer, Cloud computing",
-            ).paddingOnly(bottom: 35.h),
+            CustomTF(
+                    hint:
+                        "Eg. Sales, Marketing, iOS developer, Cloud computing",
+                    controller: empmentController.keySkillsNameTextCont)
+                .paddingOnly(bottom: 35.h),
             CustomText.title(text: "Education Details", size: 18, isBold: true)
                 .paddingOnly(bottom: 5.h),
             CustomText.title(
@@ -49,6 +59,7 @@ class SkillDetailsScreen extends StatelessWidget {
             CustomTF(
               lable: "University Name",
               hint: "Eg. Mumbai University",
+              controller: empmentController.universityNameTextCont,
             ).paddingOnly(bottom: 20.h),
             Align(
               alignment: Alignment.bottomCenter,
@@ -66,18 +77,20 @@ class SkillDetailsScreen extends StatelessWidget {
   }
 
   Widget educationDetailsWidgetList() {
-    final periodList = [
-      "Doctorate",
-      "Post Graduate",
-      "Graduate",
-      "Class XII",
-      "Class X",
-      "Below class X"
-    ];
     return Wrap(
-        children: periodList
-            .map((e) => CustomActionChip(title: e, onPressed: (s) {})
-                .paddingSymmetric(horizontal: 5.h))
+        children: empmentController.educationList
+            .map((e) => CustomActionChip(
+                  title: e.title,
+                  isSelected: e.isSelected,
+                  onPressed: (p0) {
+                    for (var e in empmentController.educationList) {
+                      e.isSelected = false;
+                    }
+                    e.isSelected = true;
+                    setState(() {});
+                    empmentController.educationDetails.value = e.title;
+                  },
+                ).paddingSymmetric(horizontal: 5.h))
             .toList());
   }
 }

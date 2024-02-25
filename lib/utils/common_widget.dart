@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:hire_app/utils/extensions.dart';
 
 import 'app_theme.dart';
@@ -217,10 +218,12 @@ class CustomTF extends StatefulWidget {
       this.keyboardType,
       this.showObscure = false,
       this.validator,
-      this.formatter});
+      this.formatter,
+      this.controller});
   final String? lable;
   final String? hint;
   final String? helperTxt;
+  final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool showObscure;
   final Function(String, String)? validator;
@@ -241,6 +244,7 @@ class _CustomTFState extends State<CustomTF> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       keyboardType: widget.keyboardType,
       obscureText: isObsure,
       inputFormatters: widget.formatter,
@@ -255,13 +259,15 @@ class _CustomTFState extends State<CustomTF> {
         helperText: widget.helperTxt,
         labelText: widget.lable,
         hintText: widget.hint,
-        suffixIcon: GestureDetector(
-            onTap: () => setState(() => isObsure = !isObsure),
-            child: Icon(
-              (isObsure) ? Icons.visibility : Icons.visibility_off,
-              size: 24,
-              color: AppTheme.lightPrimaryColor,
-            )).visible(isVisible: widget.showObscure),
+        suffixIcon: (widget.showObscure)
+            ? GestureDetector(
+                onTap: () => setState(() => isObsure = !isObsure),
+                child: Icon(
+                  (isObsure) ? Icons.visibility : Icons.visibility_off,
+                  size: 24,
+                  color: AppTheme.lightPrimaryColor,
+                ))
+            : null,
         labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
         helperStyle: const TextStyle(color: AppTheme.secondaryTextColor),
         hintStyle: const TextStyle(color: AppTheme.secondaryTextColor),
