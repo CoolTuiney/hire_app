@@ -156,16 +156,19 @@ class CustomActionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChoiceChip(
-      onSelected: onPressed,
-      selectedColor: Colors.grey.shade200,
-      side: const BorderSide(color: Colors.grey),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.r),
+    return Transform(
+      transform: Matrix4.identity()..scale(0.8),
+      child: ChoiceChip(
+        onSelected: onPressed,
+        selectedColor: Colors.grey.shade200,
+        side: const BorderSide(color: Colors.grey),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.r),
+        ),
+        labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
+        label: Text(title),
+        selected: isSelected ?? false,
       ),
-      labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
-      label: Text(title),
-      selected: isSelected ?? false,
     );
   }
 }
