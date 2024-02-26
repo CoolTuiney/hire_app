@@ -17,8 +17,7 @@ class HomeScreen extends StatelessWidget {
       () => (homeController.isLoading.value)
           ? CommonWidget.showLoader()
           : ListView.builder(
-              // itemCount: homeController.getJobModel?.data?.jobList?.length ?? 0,
-              itemCount: 5,
+              itemCount: homeController.getJobModel?.data?.jobList?.length ?? 0,
               padding: EdgeInsets.symmetric(vertical: 10.h),
               itemBuilder: (context, index) {
                 var jobDetail =
@@ -31,10 +30,10 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText.title(text: jobDetail?.designation ?? ""),
-                      CustomText.subTitle(text: jobDetail?.companyName ?? "")
+                      CustomText.subTitle(text: jobDetail?.company ?? "")
                           .paddingOnly(bottom: 4.h),
                       LabelledIcon(
-                          label: jobDetail?.locationName ?? "",
+                          label: jobDetail?.location ?? "",
                           icon: Icons.location_on_outlined),
                       LabelledIcon(
                           label: jobDetail?.skills ?? "",
@@ -43,8 +42,7 @@ class HomeScreen extends StatelessWidget {
                               label: jobDetail?.salary ?? "",
                               icon: Icons.currency_rupee_outlined)
                           .paddingOnly(bottom: 4.h),
-                      CustomText.subTitle(
-                          text: jobDetail?.jobDescription ?? ""),
+                      CustomText.subTitle(text: jobDetail?.jpDescription ?? ""),
                     ],
                   ),
                 ).paddingSymmetric(horizontal: 15.h, vertical: 5.h);

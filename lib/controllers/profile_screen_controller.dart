@@ -9,6 +9,12 @@ class ProfileScreenController extends GetxController {
   var isLoading = false.obs;
   GetEmployeeDetailModel? getEmployeeDetailModel;
 
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await getEmpDetail();
+  }
+
   getEmpDetail() async {
     isLoading.value = true;
     var res = await DioClient().get(EndPoints.getemployeeDetails);

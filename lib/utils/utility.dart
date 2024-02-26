@@ -1,5 +1,10 @@
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
+import 'package:hire_app/controllers/login_screen_controller.dart';
+
+import '../screens/login_screen.dart';
+import '../service/shared_pref.dart';
 
 class Utility {
   static String? validateName(String? value, String hint) {
@@ -57,5 +62,10 @@ class Utility {
     return [FilteringTextInputFormatter.deny(RegExp(r'^\s'))];
   }
 
+  static logoutUser() async {
+    Get.find<LoginScreenController>().deinit();
+    SharedPref.removeString(SharedPref.userLogin);
+    Get.off(() => const LoginScreen());
+  }
   
 }

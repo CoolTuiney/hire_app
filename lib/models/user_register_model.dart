@@ -1,37 +1,76 @@
 // To parse this JSON data, do
 //
-//     final userRegisterModel = userRegisterModelFromJson(jsonString);
+//     final userRegisterResModel = userRegisterResModelFromJson(jsonString);
 
 import 'dart:convert';
 
-UserRegisterModel userRegisterModelFromJson(String str) => UserRegisterModel.fromJson(json.decode(str));
+UserRegisterResModel userRegisterResModelFromJson(String str) =>
+    UserRegisterResModel.fromJson(json.decode(str));
 
-String userRegisterModelToJson(UserRegisterModel data) => json.encode(data.toJson());
+String userRegisterResModelToJson(UserRegisterResModel data) =>
+    json.encode(data.toJson());
 
-class UserRegisterModel {
-    int? code;
-    String? data;
-    String? message;
-    int? statusCode;
+class UserRegisterResModel {
+  int? code;
+  Data? data;
+  String? message;
+  int? statusCode;
 
-    UserRegisterModel({
-        this.code,
-        this.data,
-        this.message,
-        this.statusCode,
-    });
+  UserRegisterResModel({
+    this.code,
+    this.data,
+    this.message,
+    this.statusCode,
+  });
 
-    factory UserRegisterModel.fromJson(Map<String, dynamic> json) => UserRegisterModel(
+  factory UserRegisterResModel.fromJson(Map<String, dynamic> json) =>
+      UserRegisterResModel(
         code: json["code"],
-        data: json["data"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"],
         statusCode: json["statusCode"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "code": code,
-        "data": data,
+        "data": data?.toJson(),
         "message": message,
         "statusCode": statusCode,
-    };
+      };
+}
+
+class Data {
+  int? umId;
+  String? fullName;
+  String? emailId;
+  String? password;
+  String? mobileNo;
+  String? token;
+
+  Data({
+    this.umId,
+    this.fullName,
+    this.emailId,
+    this.password,
+    this.mobileNo,
+    this.token,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        umId: json["umId"],
+        fullName: json["fullName"],
+        emailId: json["emailId"],
+        password: json["password"],
+        mobileNo: json["mobileNo"],
+        token: json["token"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "umId": umId,
+        "fullName": fullName,
+        "emailId": emailId,
+        "password": password,
+        "mobileNo": mobileNo,
+        "token": token,
+      };
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hire_app/controllers/login_screen_controller.dart';
 import 'package:hire_app/screens/employment_details_screen.dart';
 import 'package:hire_app/utils/app_theme.dart';
 import 'package:hire_app/utils/common_widget.dart';
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-
+    final loginCont = Get.find<LoginScreenController>();
     return Scaffold(
       appBar: CommonWidget.appBar(title: ""),
       body: SingleChildScrollView(
@@ -32,28 +33,36 @@ class LoginScreen extends StatelessWidget {
               ).paddingOnly(
                 bottom: 20.h,
               ),
-              const CustomTF(
+              CustomTF(
                 lable: 'Mobile',
                 hint: "Enter your mobile number",
-                helperTxt: "Recruiters will contact you on this numbers",
+                keyboardType: TextInputType.number,
+                controller: loginCont.mobileTextCont,
+                formatter: Utility.inputFormattersDigitOnly(),
                 validator: Utility.validateMobile,
               ).paddingOnly(bottom: 25.h),
-              const CustomTF(
+              CustomTF(
+                lable: 'Email',
+                hint: "Enter your email",
+                controller: loginCont.emailTextCont,
+                validator: Utility.validateEmail,
+              ).paddingOnly(bottom: 25.h),
+              CustomTF(
                 lable: 'Password',
                 hint: "Enter password",
                 helperTxt: "Minimum 6 characters",
+                controller: loginCont.passwordTextCont,
                 showObscure: true,
                 validator: Utility.validatePassword,
-              ).paddingOnly(bottom: 15.h),
+              ).paddingOnly(bottom: 35.h),
               Center(
                 child: CommonWidget.roundedButton(
                     context: context,
                     title: "Login",
                     onTap: () {
-                      // if (formKey.currentState?.validate() ?? false) {
-                      CommonWidget.goTo(
-                          context, const EmploymentDetailsScreen());
-                      // }
+                      if (formKey.currentState?.validate() ?? false) {
+                        loginCont.loginUser();
+                      }
                     }),
               )
             ],
@@ -63,5 +72,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-

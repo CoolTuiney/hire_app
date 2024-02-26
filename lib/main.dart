@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           theme: AppTheme.lightTheme,
           initialRoute: '/',
-          home: const RegisterScreen(),
+          home: const SplashScreen(),
           getPages: [
             GetPage(name: '/', page: () => const SplashScreen()),
             // GetPage(name: '/home', page: () => const HomeScreen()),

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-mixin  ApiResponse {}
+mixin ApiResponse {}
 
 class DioResponse extends Response with ApiResponse {
   DioResponse(
@@ -33,7 +33,7 @@ class DioExceptions with ApiResponse implements Exception {
   late String message;
 
   DioExceptions.fromDioError(
-    DioException  dioError,
+    DioException dioError,
   ) {
     switch (dioError.type) {
       case DioExceptionType.cancel:

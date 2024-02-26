@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hire_app/controllers/login_screen_controller.dart';
 import 'package:hire_app/service/response_handler.dart';
 
 import '../main.dart';
@@ -8,13 +12,18 @@ import 'end_points.dart';
 class DioClient {
   final Dio _dio = Dio();
   final timeout = const Duration(minutes: 2);
+  final loginCont = Get.find<LoginScreenController>();
+
   DioClient({String? baseUrl}) {
     _dio
       ..options.baseUrl = baseUrl ?? EndPoints.baseUrl
-      ..options.responseType = ResponseType.json
+      // ..options.responseType = ResponseType.json
       ..options.connectTimeout = timeout
       ..options.responseType = ResponseType.plain
       // ..interceptors.add(alice.getDioInterceptor())
+      ..options.contentType = 'application/json'
+      // ..options.headers["p1"] = loginCont.userRegisterModel?.data?.token ?? ""
+      ..options.headers["p1"] = 2
       ..options.receiveTimeout = timeout;
   }
 
@@ -66,7 +75,7 @@ class DioClient {
 
       return DioResponse(response);
     } catch (e) {
-      // debugPrint(e.toString());
+      debugPrint(e.toString());
       return DioExceptions.fromDioError(e as DioException);
     }
   }

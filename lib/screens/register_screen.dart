@@ -66,8 +66,7 @@ class RegisterScreen extends StatelessWidget {
                           title: "Register",
                           onTap: () {
                             registerController.registerUser();
-                            // CommonWidget.goTo(
-                            //     context, const EmploymentDetailsScreen());
+                           
                           }),
                     )
                   ],

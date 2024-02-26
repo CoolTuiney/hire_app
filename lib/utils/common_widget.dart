@@ -296,7 +296,7 @@ class _CustomTFState extends State<CustomTF> {
                 child: Icon(
                   (isObsure) ? Icons.visibility : Icons.visibility_off,
                   size: 24,
-                  color: AppTheme.lightPrimaryColor,
+                  color: AppTheme.primaryTextColor,
                 ))
             : null,
         labelStyle: const TextStyle(color: AppTheme.primaryTextColor),

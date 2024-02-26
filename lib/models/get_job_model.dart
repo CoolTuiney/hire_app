@@ -49,45 +49,49 @@ class Data {
 }
 
 class JobList {
-    String? imageUrl;
+     int? jpId;
+    String? jpImage;
     String? designation;
-    String? companyName;
-    String? locationName;
+    String? company;
+    String? location;
     String? skills;
     String? salary;
-    String? numberOfOpenings;
-    String? jobDescription;
+    String? noOfOpenings;
+    String? jpDescription;
 
     JobList({
-        this.imageUrl,
+        this.jpId,
+        this.jpImage,
         this.designation,
-        this.companyName,
-        this.locationName,
+        this.company,
+        this.location,
         this.skills,
         this.salary,
-        this.numberOfOpenings,
-        this.jobDescription,
+        this.noOfOpenings,
+        this.jpDescription,
     });
 
     factory JobList.fromJson(Map<String, dynamic> json) => JobList(
-        imageUrl: json["imageUrl"],
+        jpId: json["jpId"],
+        jpImage: json["jpImage"],
         designation: json["designation"],
-        companyName: json["companyName"],
-        locationName: json["locationName"],
+        company: json["company"],
+        location: json["location"],
         skills: json["skills"],
         salary: json["salary"],
-        numberOfOpenings: json["numberOfOpenings"],
-        jobDescription: json["jobDescription"],
+        noOfOpenings: json["noOfOpenings"],
+        jpDescription: json["jpDescription"],
     );
 
     Map<String, dynamic> toJson() => {
-        "imageUrl": imageUrl,
+        "jpId": jpId,
+        "jpImage": jpImage,
         "designation": designation,
-        "companyName": companyName,
-        "locationName": locationName,
+        "company": company,
+        "location": location,
         "skills": skills,
         "salary": salary,
-        "numberOfOpenings": numberOfOpenings,
-        "jobDescription": jobDescription,
+        "noOfOpenings": noOfOpenings,
+        "jpDescription": jpDescription,
     };
 }

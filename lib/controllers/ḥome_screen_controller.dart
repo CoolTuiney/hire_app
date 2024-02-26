@@ -17,7 +17,7 @@ class HomeScreenController extends GetxController {
 
   getJobDetailList() async {
     isLoading.value = true;
-    var res = await DioClient().get(EndPoints.employeeDetailsSave);
+    var res = await DioClient().get(EndPoints.getjobPost);
     getJobModel = jsonToObject(res, getJobModelFromJson);
     isLoading.value = false;
   }

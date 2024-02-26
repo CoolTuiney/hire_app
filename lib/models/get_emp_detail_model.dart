@@ -12,44 +12,52 @@ class GetEmployeeDetailModel {
     int? code;
     Data? data;
     String? message;
+    int? statusCode;
 
     GetEmployeeDetailModel({
         this.code,
         this.data,
         this.message,
+        this.statusCode,
     });
 
     factory GetEmployeeDetailModel.fromJson(Map<String, dynamic> json) => GetEmployeeDetailModel(
-        code: json["Code"],
-        data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
-        message: json["Message"],
+        code: json["code"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        message: json["message"],
+        statusCode: json["statusCode"],
     );
 
     Map<String, dynamic> toJson() => {
-        "Code": code,
-        "Data": data?.toJson(),
-        "Message": message,
+        "code": code,
+        "data": data?.toJson(),
+        "message": message,
+        "statusCode": statusCode,
     };
 }
 
 class Data {
+    int? umdId;
+    int? umId;
     String? experienceYears;
     String? experienceMonth;
     String? currentCompany;
-    String? jobTitle;
+    dynamic jobTitle;
     String? currentSalary;
-    String? workDurationFromDate;
-    String? workDurationToDate;
+    DateTime? workDurationFromDate;
+    DateTime? workDurationToDate;
     String? noticePeriod;
     String? keySkills;
     String? educationDetails;
-    String? univercityName;
+    String? universityName;
     String? preferredSalary;
     String? prefferedLocation;
     String? resume;
     String? photo;
 
     Data({
+        this.umdId,
+        this.umId,
         this.experienceYears,
         this.experienceMonth,
         this.currentCompany,
@@ -60,7 +68,7 @@ class Data {
         this.noticePeriod,
         this.keySkills,
         this.educationDetails,
-        this.univercityName,
+        this.universityName,
         this.preferredSalary,
         this.prefferedLocation,
         this.resume,
@@ -68,17 +76,19 @@ class Data {
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
+        umdId: json["umdId"],
+        umId: json["umId"],
         experienceYears: json["experience_years"],
         experienceMonth: json["experience_month"],
         currentCompany: json["currentCompany"],
         jobTitle: json["jobTitle"],
         currentSalary: json["currentSalary"],
-        workDurationFromDate: json["workDurationFromDate"],
-        workDurationToDate: json["workDurationToDate"],
+        workDurationFromDate: json["workDurationFromDate"] == null ? null : DateTime.parse(json["workDurationFromDate"]),
+        workDurationToDate: json["workDurationToDate"] == null ? null : DateTime.parse(json["workDurationToDate"]),
         noticePeriod: json["noticePeriod"],
         keySkills: json["keySkills"],
         educationDetails: json["educationDetails"],
-        univercityName: json["univercityName"],
+        universityName: json["universityName"],
         preferredSalary: json["preferredSalary"],
         prefferedLocation: json["prefferedLocation"],
         resume: json["resume"],
@@ -86,17 +96,19 @@ class Data {
     );
 
     Map<String, dynamic> toJson() => {
+        "umdId": umdId,
+        "umId": umId,
         "experience_years": experienceYears,
         "experience_month": experienceMonth,
         "currentCompany": currentCompany,
         "jobTitle": jobTitle,
         "currentSalary": currentSalary,
-        "workDurationFromDate": workDurationFromDate,
-        "workDurationToDate": workDurationToDate,
+        "workDurationFromDate": workDurationFromDate?.toIso8601String(),
+        "workDurationToDate": workDurationToDate?.toIso8601String(),
         "noticePeriod": noticePeriod,
         "keySkills": keySkills,
         "educationDetails": educationDetails,
-        "univercityName": univercityName,
+        "universityName": universityName,
         "preferredSalary": preferredSalary,
         "prefferedLocation": prefferedLocation,
         "resume": resume,

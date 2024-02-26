@@ -1,34 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hire_app/controllers/login_screen_controller.dart';
 import 'package:hire_app/controllers/profile_screen_controller.dart';
+import 'package:hire_app/screens/login_screen.dart';
+import 'package:hire_app/service/shared_pref.dart';
 import 'package:hire_app/utils/app_theme.dart';
 import 'package:hire_app/utils/common_widget.dart';
 
 import 'package:hire_app/utils/custom_text.dart';
 import 'package:hire_app/utils/extensions.dart';
+import 'package:hire_app/utils/utility.dart';
 
 import 'employment_details_screen.dart';
-
-// {
-//   "umdId": 0,
-//   "umId": 0,
-//   "experience_years": "string", done
-//   "experience_month": "string", done
-//   "currentCompany": "string",
-//   "jobTitle": "string",
-//   "currentSalary": "string",
-//   "workDurationFromDate": "2024-02-21T07:11:42.449Z",
-//   "workDurationToDate": "2024-02-21T07:11:42.449Z",
-//   "noticePeriod": "string",
-//   "keySkills": "string",
-//   "educationDetails": "string",
-//   "universityName": "string",
-//   "preferredSalary": "string",
-//   "prefferedLocation": "string",
-//   "resume": "string",
-//   "photo": "string"
-// }
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -39,6 +23,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final profileController = Get.find<ProfileScreenController>();
+  final loginCont = Get.find<LoginScreenController>();
   final profileData =
       Get.find<ProfileScreenController>().getEmployeeDetailModel?.data;
 
@@ -51,10 +36,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 avatarHeader(),
                 PersonalDetailCard(),
-                skillDetailsWidgetList()
+                skillDetailsWidgetList(),
+                TextButton(
+                    onPressed: () {
+                      logoutUserDialog();
+                    },
+                    child: CustomText.title(text: "Logout", color: Colors.red))
               ],
             ),
     );
+  }
+
+  logoutUserDialog() {
+    Get.defaultDialog(
+        title: "Log Out",
+        titleStyle: const TextStyle(fontSize: 18),
+        middleText: "Are you sure you want to log out?",
+        confirm: TextButton(
+          onPressed: () {
+            Get.back();
+            Utility.logoutUser();
+          },
+          child: const Text("Logout"),
+        ).paddingOnly(left: 8.h, top: 5.h),
+        cancel: TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: const Text("Cancel"),
+        ).paddingOnly(right: 8.h, top: 5.h));
   }
 
   Widget skillDetailsWidgetList() {
@@ -89,10 +99,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: CircleAvatar(
             radius: 30.r,
             backgroundColor: AppTheme.lightPrimaryColor.withOpacity(0.2),
-            child: CustomText.title(text: "AS", size: 20),
+            child: CustomText.title(
+                text: getInitials(
+                    loginCont.userRegisterModel?.data?.fullName ?? ""),
+                size: 20),
           ).paddingSymmetric(vertical: 5.h),
         ),
-        CustomText.title(text: "Abhay Sharma", size: 16, isBold: true),
+        CustomText.title(
+            text: loginCont.userRegisterModel?.data?.fullName ?? "",
+            size: 16,
+            isBold: true),
         CustomText.title(
             text:
                 profileController.getEmployeeDetailModel?.data?.jobTitle ?? "",
@@ -128,6 +144,7 @@ class PersonalDetailCard extends StatelessWidget {
   });
 
   final profileController = Get.find<ProfileScreenController>();
+  final loginCont = Get.find<LoginScreenController>();
   final profileData =
       Get.find<ProfileScreenController>().getEmployeeDetailModel?.data;
   @override
@@ -173,7 +190,7 @@ class PersonalDetailCard extends StatelessWidget {
                       value: profileData?.educationDetails ?? ""),
                   singleDataCol(
                       label: "University",
-                      value: profileData?.univercityName ?? ""),
+                      value: profileData?.universityName ?? ""),
                 ],
               ),
             ],
