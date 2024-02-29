@@ -132,7 +132,7 @@ class CommonWidget {
           "asset/images/no-pictures.png",
           color: Colors.grey,
         ).paddingSymmetric(horizontal: 30, vertical: 30),
-      ).visible(isVisible: showErrorImg),
+      ).visible(showErrorImg),
     );
   }
 
@@ -240,8 +240,9 @@ class DashedLinePainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
+// ignore: must_be_immutable
 class CustomTF extends StatefulWidget {
-  const CustomTF(
+  CustomTF(
       {super.key,
       this.hint = "",
       this.lable,
@@ -250,6 +251,8 @@ class CustomTF extends StatefulWidget {
       this.showObscure = false,
       this.validator,
       this.formatter,
+      this.onTap,
+      this.isReadyOnly = false,
       this.controller});
   final String? lable;
   final String? hint;
@@ -257,8 +260,10 @@ class CustomTF extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool showObscure;
-  final Function(String, String)? validator;
+  final bool isReadyOnly;
+  final Function(String)? validator;
   final List<TextInputFormatter>? formatter;
+  void Function()? onTap;
   @override
   State<CustomTF> createState() => _CustomTFState();
 }
@@ -279,9 +284,11 @@ class _CustomTFState extends State<CustomTF> {
       keyboardType: widget.keyboardType,
       obscureText: isObsure,
       inputFormatters: widget.formatter,
+      readOnly: widget.isReadyOnly,
+      onTap: widget.onTap,
       validator: (value) {
         if (widget.validator != null) {
-          return widget.validator!(value ?? "", widget.hint!);
+          return widget.validator!(value ?? "");
         }
         return null;
       },

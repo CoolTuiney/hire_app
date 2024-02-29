@@ -22,8 +22,7 @@ class DioClient {
       ..options.responseType = ResponseType.plain
       // ..interceptors.add(alice.getDioInterceptor())
       ..options.contentType = 'application/json'
-      // ..options.headers["p1"] = loginCont.userRegisterModel?.data?.token ?? ""
-      ..options.headers["p1"] = 2
+      ..options.headers["p1"] = loginCont.userRegisterModel?.data?.umId ?? ""
       ..options.receiveTimeout = timeout;
   }
 

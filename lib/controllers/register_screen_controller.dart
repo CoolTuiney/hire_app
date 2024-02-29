@@ -23,7 +23,7 @@ class RegisterScreenController extends GetxController {
       "fullName": fullNameTextCont.text,
       "emailId": emailTextCont.text,
       "password": passwordTextCont.text,
-      "mobileNumber": mobileTextCont.text,
+      "mobileNo": mobileTextCont.text,
       "token": ""
     };
 
@@ -32,7 +32,7 @@ class RegisterScreenController extends GetxController {
     userRegisterModel =
         jsonToObject<UserRegisterResModel>(res, userRegisterResModelFromJson);
     if (userRegisterModel?.code == 1) {
-      Get.to(() => const EmploymentDetailsScreen());
+      Get.off(() => const EmploymentDetailsScreen());
     } else {
       CommonWidget.showToast(
           userRegisterModel?.message ?? "Something went wrong");

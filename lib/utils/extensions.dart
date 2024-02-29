@@ -13,7 +13,7 @@ extension ExtendedWidget on Widget {
   //   );
   // }
 
-  visible({required bool isVisible}) {
+  visible(bool isVisible) {
     return (isVisible) ? this : const SizedBox.shrink();
   }
 

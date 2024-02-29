@@ -1,8 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hire_app/controllers/login_screen_controller.dart';
 import 'package:hire_app/screens/employment_details_screen.dart';
+import 'package:hire_app/screens/register_screen.dart';
 import 'package:hire_app/utils/app_theme.dart';
 import 'package:hire_app/utils/common_widget.dart';
 import 'package:hire_app/utils/custom_text.dart';
@@ -64,7 +66,28 @@ class LoginScreen extends StatelessWidget {
                         loginCont.loginUser();
                       }
                     }),
-              )
+              ).paddingOnly(bottom: 30.h),
+              Center(
+                child: RichText(
+                  text:  TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: "Don't have an account?\t",
+                        style: TextStyle(color: AppTheme.primaryTextColor),
+                      ),
+                      TextSpan(
+                        text: "Register",
+                        style: const TextStyle(
+                            color: AppTheme.lightPrimaryColor,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.off(()=> const RegisterScreen()),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ).paddingSymmetric(horizontal: 15.h, vertical: 14.h),
         ),

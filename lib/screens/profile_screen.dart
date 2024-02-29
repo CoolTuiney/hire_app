@@ -49,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   logoutUserDialog() {
     Get.defaultDialog(
+      titlePadding: EdgeInsets.only(top: 15.h,bottom: 10.h),
         title: "Log Out",
         titleStyle: const TextStyle(fontSize: 18),
         middleText: "Are you sure you want to log out?",
@@ -86,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     )
         .paddingSymmetric(horizontal: 15.h)
-        .visible(isVisible: periodList.isNotEmpty);
+        .visible(periodList.isNotEmpty);
   }
 
   Column avatarHeader() {

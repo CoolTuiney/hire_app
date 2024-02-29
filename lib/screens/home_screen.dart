@@ -17,7 +17,8 @@ class HomeScreen extends StatelessWidget {
       () => (homeController.isLoading.value)
           ? CommonWidget.showLoader()
           : ListView.builder(
-              itemCount: homeController.getJobModel?.data?.jobList?.length ?? 0,
+              // itemCount: homeController.getJobModel?.data?.jobList?.length ?? 0,
+              itemCount: 5,
               padding: EdgeInsets.symmetric(vertical: 10.h),
               itemBuilder: (context, index) {
                 var jobDetail =
@@ -29,20 +30,20 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText.title(text: jobDetail?.designation ?? ""),
-                      CustomText.subTitle(text: jobDetail?.company ?? "")
+                      CustomText.title(text: jobDetail?.designation ?? "Flutter Developer"),
+                      CustomText.subTitle(text: jobDetail?.company ?? "AB Multiply")
                           .paddingOnly(bottom: 4.h),
                       LabelledIcon(
-                          label: jobDetail?.location ?? "",
+                          label: jobDetail?.location ?? "Mumbai",
                           icon: Icons.location_on_outlined),
                       LabelledIcon(
-                          label: jobDetail?.skills ?? "",
+                          label: jobDetail?.skills ?? "Flutter, ios , android",
                           icon: Icons.work_outline),
                       LabelledIcon(
-                              label: jobDetail?.salary ?? "",
+                              label: jobDetail?.salary ?? "10 LPA",
                               icon: Icons.currency_rupee_outlined)
                           .paddingOnly(bottom: 4.h),
-                      CustomText.subTitle(text: jobDetail?.jpDescription ?? ""),
+                      CustomText.subTitle(text: jobDetail?.jpDescription ?? "This is job description"),
                     ],
                   ),
                 ).paddingSymmetric(horizontal: 15.h, vertical: 5.h);

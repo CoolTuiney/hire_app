@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:hire_app/controllers/login_screen_controller.dart';
+import 'package:hire_app/controllers/register_screen_controller.dart';
+import 'package:hire_app/utils/utility.dart';
 
 import '../screens/employment_details_screen.dart';
 import '../service/dio_client.dart';
@@ -23,6 +26,10 @@ class EmployeementDetailController extends GetxController {
   final perferredWorkLocationTextCont = TextEditingController();
 
   var educationDetails = "".obs;
+  var fromDate = "".obs;
+  var toDate = "".obs;
+
+  var willShowEduDetailError = false.obs;
 
   final periodList = [
     ChipsDetails(title: "15 days or less"),
@@ -45,24 +52,30 @@ class EmployeementDetailController extends GetxController {
   var noticePeriod = "".obs;
 
   submitEmployementDetail() async {
+    final registerCont = Get.find<RegisterScreenController>();
+    var convertedFromDate =
+        Utility.convertStringToDateTime(fromDate.value)?.toIso8601String() ??
+            "";
+    var convertedToDate =
+        Utility.convertStringToDateTime(toDate.value)?.toIso8601String() ?? "";
     var data = {
-      "umdId": 0,
+      "umdId": registerCont.userRegisterModel?.data?.umId,
       "umId": 0,
-      "experience_years": "string",
-      "experience_month": "string",
-      "currentCompany": "string",
-      "jobTitle": "string",
-      "currentSalary": "string",
-      "workDurationFromDate": "2024-02-25T17:59:28.241Z",
-      "workDurationToDate": "2024-02-25T17:59:28.241Z",
-      "noticePeriod": "string",
-      "keySkills": "string",
-      "educationDetails": "string",
-      "universityName": "string",
-      "preferredSalary": "string",
-      "prefferedLocation": "string",
-      "resume": "string",
-      "photo": "string"
+      "experience_years": yearExpTextCont.text,
+      "experience_month": monthsExpTextCont.text,
+      "currentCompany": companyNameTextCont.text,
+      "jobTitle": jobTitleTextCont.text,
+      "currentSalary": currSalaryTextCont.text,
+      "workDurationFromDate": convertedFromDate,
+      "workDurationToDate": convertedToDate,
+      "noticePeriod": noticePeriod.value,
+      "keySkills": keySkillsNameTextCont.text,
+      "educationDetails": educationDetails.value,
+      "universityName": universityNameTextCont.text,
+      "preferredSalary": preferredSalaryTextCont.text,
+      "prefferedLocation": perferredWorkLocationTextCont.text,
+      "resume": "",
+      "photo": ""
     };
 
     var res = await DioClient().post(EndPoints.employeeDetailsSave, data);
@@ -73,6 +86,19 @@ class EmployeementDetailController extends GetxController {
         return true;
       }
       CommonWidget.showToast(map['message'] ?? "something went wrong");
+    }
+  }
+
+  void isEduDetailSelected() {
+    // willShowEduDetailError.value =
+    //     educationList.firstWhere((e) => e.isSelected ?? false).isSelected ??
+    //         false;
+    willShowEduDetailError.value = true;
+    for (var item in educationList) {
+      if (item.isSelected ?? false) {
+        willShowEduDetailError.value = false;
+        return;
+      }
     }
   }
 }

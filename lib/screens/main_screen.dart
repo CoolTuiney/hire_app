@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     final homeController = Get.put(HomeScreenController());
     final profileController = Get.put(ProfileScreenController());
     return Scaffold(
-      appBar: CommonWidget.appBar(title: ""),
+      appBar: CommonWidget.appBar(title: "Available Jobs"),
       body: body[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
