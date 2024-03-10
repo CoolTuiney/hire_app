@@ -19,6 +19,7 @@ report banner: 1C5871
       Color.fromARGB(255, 10, 76, 152);
 
   static const Color primaryTextColor = Color(0xFF475473);
+  static const Color tertiaryTextColor = Color(0xFF647494);
   static const Color secondaryTextColor = Color(0xFF8193b5);
   static const Color primaryButtonColor = Color(0xFF706DFF);
   static const Color textBackgroundColor = Color(0xFFF2F4FF);

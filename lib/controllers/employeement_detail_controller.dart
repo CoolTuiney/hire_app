@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hire_app/controllers/login_screen_controller.dart';
 import 'package:hire_app/controllers/register_screen_controller.dart';
+import 'package:hire_app/models/user_register_model.dart';
 import 'package:hire_app/utils/utility.dart';
 
 import '../screens/employment_details_screen.dart';
+import '../screens/main_screen.dart';
 import '../service/dio_client.dart';
 import '../service/end_points.dart';
 import '../service/response_handler.dart';
@@ -19,6 +21,8 @@ class EmployeementDetailController extends GetxController {
   final jobTitleTextCont = TextEditingController();
   final currSalaryTextCont = TextEditingController();
   final currWorkDurTextCont = TextEditingController();
+  final fromDateTextCont = TextEditingController();
+  final toDateDurTextCont = TextEditingController();
 
   final universityNameTextCont = TextEditingController();
   final keySkillsNameTextCont = TextEditingController();
@@ -26,8 +30,6 @@ class EmployeementDetailController extends GetxController {
   final perferredWorkLocationTextCont = TextEditingController();
 
   var educationDetails = "".obs;
-  var fromDate = "".obs;
-  var toDate = "".obs;
 
   var willShowEduDetailError = false.obs;
 
@@ -54,10 +56,13 @@ class EmployeementDetailController extends GetxController {
   submitEmployementDetail() async {
     final registerCont = Get.find<RegisterScreenController>();
     var convertedFromDate =
-        Utility.convertStringToDateTime(fromDate.value)?.toIso8601String() ??
+        Utility.convertStringToDateTime(fromDateTextCont.text)
+                ?.toIso8601String() ??
             "";
     var convertedToDate =
-        Utility.convertStringToDateTime(toDate.value)?.toIso8601String() ?? "";
+        Utility.convertStringToDateTime(toDateDurTextCont.text)
+                ?.toIso8601String() ??
+            "";
     var data = {
       "umdId": registerCont.userRegisterModel?.data?.umId,
       "umId": 0,
@@ -78,14 +83,18 @@ class EmployeementDetailController extends GetxController {
       "photo": ""
     };
 
-    var res = await DioClient().post(EndPoints.employeeDetailsSave, data);
+    var res = await CommonWidget.apiCallWithLoading(
+        DioClient().post(EndPoints.employeeDetailsSave, data));
     if (res is DioResponse) {
       var map = jsonDecode(res.data);
 
       if (map['code'] == 1) {
-        return true;
+        Get.until((route) => Get.currentRoute == '/RegisterScreen');
+     
+        Get.off(() => const MainScreen());
+      } else {
+        CommonWidget.showToast(map['message'] ?? "something went wrong");
       }
-      CommonWidget.showToast(map['message'] ?? "something went wrong");
     }
   }
 

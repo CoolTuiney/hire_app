@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hire_app/utils/extensions.dart';
 
@@ -48,7 +49,14 @@ class CommonWidget {
   }
 
   static showToast(String text, {int maxLine = 2, int seconds = 2}) {
-    // Get.closeCurrentSnackbar();
+    // Fluttertoast.cancel();
+    Fluttertoast.showToast(
+        msg: text,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   static BoxDecoration containerDecoration(
@@ -241,6 +249,73 @@ class DashedLinePainter extends CustomPainter {
 }
 
 // ignore: must_be_immutable
+class CustomMultiTF extends StatefulWidget {
+  CustomMultiTF(
+      {super.key,
+      this.hint = "",
+      this.lable,
+      this.helperTxt,
+      this.keyboardType,
+      this.validator,
+      this.formatter,
+      this.onTap,
+      this.isReadyOnly = false,
+      this.maxLine,
+      this.controller});
+  final String? lable;
+  final String? hint;
+  final String? helperTxt;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final bool isReadyOnly;
+  final Function(String)? validator;
+  final List<TextInputFormatter>? formatter;
+  final int? maxLine;
+  void Function()? onTap;
+  @override
+  State<CustomMultiTF> createState() => _CustomMultiTFState();
+}
+
+class _CustomMultiTFState extends State<CustomMultiTF> {
+  late bool isObsure;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
+      inputFormatters: widget.formatter,
+      readOnly: widget.isReadyOnly,
+      maxLines: widget.maxLine,
+      onTap: widget.onTap,
+      validator: (value) {
+        if (widget.validator != null) {
+          return widget.validator!(value ?? "");
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        // isDense: true,
+        helperText: widget.helperTxt,
+        labelText: widget.lable,
+        hintText: widget.hint,
+
+        labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
+        helperStyle: const TextStyle(color: AppTheme.secondaryTextColor),
+        hintStyle: const TextStyle(color: AppTheme.secondaryTextColor),
+        border: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
 class CustomTF extends StatefulWidget {
   CustomTF(
       {super.key,
@@ -253,6 +328,7 @@ class CustomTF extends StatefulWidget {
       this.formatter,
       this.onTap,
       this.isReadyOnly = false,
+      this.maxLine,
       this.controller});
   final String? lable;
   final String? hint;
@@ -263,6 +339,7 @@ class CustomTF extends StatefulWidget {
   final bool isReadyOnly;
   final Function(String)? validator;
   final List<TextInputFormatter>? formatter;
+  final int? maxLine;
   void Function()? onTap;
   @override
   State<CustomTF> createState() => _CustomTFState();
@@ -285,6 +362,7 @@ class _CustomTFState extends State<CustomTF> {
       obscureText: isObsure,
       inputFormatters: widget.formatter,
       readOnly: widget.isReadyOnly,
+      // maxLines: widget.maxLine,
       onTap: widget.onTap,
       validator: (value) {
         if (widget.validator != null) {

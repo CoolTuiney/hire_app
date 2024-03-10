@@ -16,7 +16,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final registerController = RegisterScreenController();
+    final registerController = Get.put(RegisterScreenController());
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: CommonWidget.appBar(title: ""),
@@ -60,6 +60,7 @@ class RegisterScreen extends StatelessWidget {
                         lable: 'Password',
                         hint: "create password",
                         helperTxt: "Minimum 6 characters",
+                        showObscure: true,
                         validator: Utility.validatePassword,
                         controller: registerController.passwordTextCont,
                       ).paddingOnly(bottom: 15),
@@ -77,11 +78,9 @@ class RegisterScreen extends StatelessWidget {
                             context: context,
                             title: "Register",
                             onTap: () {
-
                               if (formKey.currentState?.validate() ?? false) {
                                 registerController.registerUser();
                               }
-                              
                             }),
                       ).paddingOnly(bottom: 30.h),
                       Center(

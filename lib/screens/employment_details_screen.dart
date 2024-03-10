@@ -68,9 +68,10 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
                           width: 100.h,
                           child: CustomTF(
                             hint: "Eg. 10-01-2023",
+                            controller: empmentController.fromDateTextCont,
                             isReadyOnly: true,
                             onTap: () async {
-                              empmentController.fromDate.value =
+                              empmentController.fromDateTextCont.text =
                                   Utility.formatDateTime(
                                       await selectDate(context), 'MM-dd-yyyy');
                             },
@@ -84,9 +85,10 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
                           width: 100.h,
                           child: CustomTF(
                             hint: "Eg. Present",
+                            controller: empmentController.toDateDurTextCont,
                             isReadyOnly: true,
                             onTap: () async {
-                              empmentController.toDate.value =
+                              empmentController.toDateDurTextCont.text =
                                   Utility.formatDateTime(
                                       await selectDate(context), 'MM-dd-yyyy');
                             },
@@ -139,6 +141,7 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
                 width: 50.h,
                 child: CustomTF(
                     hint: "Eg. 10",
+                    keyboardType: TextInputType.number,
                     controller: empmentController.monthsExpTextCont)),
             CustomText.title(text: "months")
           ],
@@ -151,6 +154,7 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
     return Wrap(
         children: empmentController.periodList
             .map((e) => CustomActionChip(
+                  transform: 1,
                   title: e.title,
                   isSelected: e.isSelected,
                   onPressed: (p0) {
@@ -187,21 +191,23 @@ class CustomActionChip extends StatelessWidget {
     required this.title,
     this.isSelected,
     this.onPressed,
+    this.transform,
   });
   final String title;
   final bool? isSelected;
   final Function(bool)? onPressed;
+  final double? transform;
 
   @override
   Widget build(BuildContext context) {
     return Transform(
-      transform: Matrix4.identity()..scale(0.8),
+      transform: Matrix4.identity()..scale(transform ?? 0.8),
       child: ChoiceChip(
         onSelected: onPressed,
         selectedColor: Colors.grey.shade200,
-        side: const BorderSide(color: Colors.grey),
+        side: BorderSide(color: AppTheme.secondaryTextColor.withOpacity(0.3)),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
         label: Text(title),

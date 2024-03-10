@@ -62,8 +62,7 @@ class WorkPreference extends StatelessWidget {
                   title: "Submit",
                   onTap: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      Get.until((route) => Get.currentRoute == '/');
-                      Get.off(() => const MainScreen());
+                      empmentController.submitEmployementDetail();
                     }
                   }),
             ).paddingOnly(top: 30.h)

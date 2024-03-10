@@ -10,46 +10,34 @@ String getJobModelToJson(GetJobModel data) => json.encode(data.toJson());
 
 class GetJobModel {
     int? code;
-    Data? data;
+    List<JobDetails>? data;
     String? message;
+    int? statusCode;
 
     GetJobModel({
         this.code,
         this.data,
         this.message,
+        this.statusCode,
     });
 
     factory GetJobModel.fromJson(Map<String, dynamic> json) => GetJobModel(
-        code: json["Code"],
-        data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
-        message: json["Message"],
+        code: json["code"],
+        data: json["data"] == null ? [] : List<JobDetails>.from(json["data"]!.map((x) => JobDetails.fromJson(x))),
+        message: json["message"],
+        statusCode: json["statusCode"],
     );
 
     Map<String, dynamic> toJson() => {
-        "Code": code,
-        "Data": data?.toJson(),
-        "Message": message,
+        "code": code,
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "message": message,
+        "statusCode": statusCode,
     };
 }
 
-class Data {
-    List<JobList>? jobList;
-
-    Data({
-        this.jobList,
-    });
-
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        jobList: json["jobList"] == null ? [] : List<JobList>.from(json["jobList"]!.map((x) => JobList.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "jobList": jobList == null ? [] : List<dynamic>.from(jobList!.map((x) => x.toJson())),
-    };
-}
-
-class JobList {
-     int? jpId;
+class JobDetails {
+    int? jpId;
     String? jpImage;
     String? designation;
     String? company;
@@ -59,7 +47,7 @@ class JobList {
     String? noOfOpenings;
     String? jpDescription;
 
-    JobList({
+    JobDetails({
         this.jpId,
         this.jpImage,
         this.designation,
@@ -71,7 +59,7 @@ class JobList {
         this.jpDescription,
     });
 
-    factory JobList.fromJson(Map<String, dynamic> json) => JobList(
+    factory JobDetails.fromJson(Map<String, dynamic> json) => JobDetails(
         jpId: json["jpId"],
         jpImage: json["jpImage"],
         designation: json["designation"],

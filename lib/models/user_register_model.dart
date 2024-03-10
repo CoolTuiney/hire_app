@@ -46,6 +46,7 @@ class Data {
   String? password;
   String? mobileNo;
   String? token;
+  bool? isAdmin;
 
   Data({
     this.umId,
@@ -54,6 +55,7 @@ class Data {
     this.password,
     this.mobileNo,
     this.token,
+    this.isAdmin,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -63,6 +65,7 @@ class Data {
         password: json["password"],
         mobileNo: json["mobileNo"],
         token: json["token"],
+        isAdmin: json["isAdmin"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +75,6 @@ class Data {
         "password": password,
         "mobileNo": mobileNo,
         "token": token,
+        "isAdmin": isAdmin,
       };
 }

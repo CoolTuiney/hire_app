@@ -22,7 +22,7 @@ class DioClient {
       ..options.responseType = ResponseType.plain
       // ..interceptors.add(alice.getDioInterceptor())
       ..options.contentType = 'application/json'
-      ..options.headers["p1"] = loginCont.userRegisterModel?.data?.umId ?? ""
+      ..options.headers["umid"] = loginCont.userRegisterModel?.data?.umId ?? ""
       ..options.receiveTimeout = timeout;
   }
 
@@ -56,12 +56,13 @@ class DioClient {
     Map<String, dynamic>? queryParam,
     ProgressCallback? onResponse,
     Options? options,
+    Map<String, dynamic>? headers,
     CancelToken? cancelToken,
   }) async {
     try {
       debugPrint("url :${_dio.options.baseUrl}$url \n req: $data");
       debugPrint("Param: $queryParam");
-
+      _dio.options.headers = headers;
       final response = await _dio.post(
         url,
         data: data,

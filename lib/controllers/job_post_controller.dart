@@ -37,8 +37,8 @@ class JobPostController extends GetxController {
 
   createJob() async {
     var data = {
-      // "jpId": 0,
-      // "jpImage": "Testjobpost1.jpg",
+      "jpId": 0,
+      "jpImage": "",
       "designation": designationTextCont.text,
       "company": companyTextCont.text,
       "location": locationTextCont.text,
@@ -55,8 +55,10 @@ class JobPostController extends GetxController {
 
       if (map['code'] == 1) {
         CommonWidget.showToast(map['message'] ?? "successfully job created");
+        deinit();
+      } else {
+        CommonWidget.showToast(map['message'] ?? "Failed to add appartment");
       }
-      CommonWidget.showToast(map['message'] ?? "Failed to add appartment");
     }
   }
 }

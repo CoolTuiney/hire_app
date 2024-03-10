@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:hire_app/controllers/login_screen_controller.dart';
 import 'package:hire_app/utils/common_widget.dart';
 
 import '../models/user_register_model.dart';
@@ -7,6 +10,7 @@ import '../screens/employment_details_screen.dart';
 import '../service/dio_client.dart';
 import '../service/end_points.dart';
 import '../service/response_handler.dart';
+import '../service/shared_pref.dart';
 
 class RegisterScreenController extends GetxController {
   final fullNameTextCont = TextEditingController();
@@ -32,7 +36,14 @@ class RegisterScreenController extends GetxController {
     userRegisterModel =
         jsonToObject<UserRegisterResModel>(res, userRegisterResModelFromJson);
     if (userRegisterModel?.code == 1) {
-      Get.off(() => const EmploymentDetailsScreen());
+      var loginCont = Get.find<LoginScreenController>();
+      loginCont.userRegisterModel = userRegisterModel;
+
+      var json = userRegisterModel?.toJson();
+      var loginString = jsonEncode(json);
+      SharedPref.set(SharedPref.userLogin, loginString);
+
+      Get.to(() => const EmploymentDetailsScreen());
     } else {
       CommonWidget.showToast(
           userRegisterModel?.message ?? "Something went wrong");

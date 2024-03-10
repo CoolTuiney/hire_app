@@ -27,13 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Get.off(() => const MainScreen());
-      // var isLogin = await checkUserLogin();
-      // if (isLogin) {
-      //   Get.off(() => const MainScreen());
-      // } else {
-      //   Get.off(() => const LoginScreen());
-      // }
+      var isLogin = await checkUserLogin();
+      if (isLogin) {
+        Get.off(() => const MainScreen());
+      } else {
+        Get.off(() => const LoginScreen());
+      }
     });
   }
 

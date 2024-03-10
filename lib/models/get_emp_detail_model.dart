@@ -4,78 +4,81 @@
 
 import 'dart:convert';
 
-GetEmployeeDetailModel getEmployeeDetailModelFromJson(String str) => GetEmployeeDetailModel.fromJson(json.decode(str));
+GetEmployeeDetailModel getEmployeeDetailModelFromJson(String str) =>
+    GetEmployeeDetailModel.fromJson(json.decode(str));
 
-String getEmployeeDetailModelToJson(GetEmployeeDetailModel data) => json.encode(data.toJson());
+String getEmployeeDetailModelToJson(GetEmployeeDetailModel data) =>
+    json.encode(data.toJson());
 
 class GetEmployeeDetailModel {
-    int? code;
-    Data? data;
-    String? message;
-    int? statusCode;
+  int? code;
+  Data? data;
+  String? message;
+  int? statusCode;
 
-    GetEmployeeDetailModel({
-        this.code,
-        this.data,
-        this.message,
-        this.statusCode,
-    });
+  GetEmployeeDetailModel({
+    this.code,
+    this.data,
+    this.message,
+    this.statusCode,
+  });
 
-    factory GetEmployeeDetailModel.fromJson(Map<String, dynamic> json) => GetEmployeeDetailModel(
+  factory GetEmployeeDetailModel.fromJson(Map<String, dynamic> json) =>
+      GetEmployeeDetailModel(
         code: json["code"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         message: json["message"],
         statusCode: json["statusCode"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "code": code,
         "data": data?.toJson(),
         "message": message,
         "statusCode": statusCode,
-    };
+      };
 }
 
 class Data {
-    int? umdId;
-    int? umId;
-    String? experienceYears;
-    String? experienceMonth;
-    String? currentCompany;
-    dynamic jobTitle;
-    String? currentSalary;
-    DateTime? workDurationFromDate;
-    DateTime? workDurationToDate;
-    String? noticePeriod;
-    String? keySkills;
-    String? educationDetails;
-    String? universityName;
-    String? preferredSalary;
-    String? prefferedLocation;
-    String? resume;
-    String? photo;
+  int? umdId;
+  int? umId;
+  String? experienceYears;
+  String? experienceMonth;
+  String? currentCompany;
+  String? jobTitle;
+  String? currentSalary;
+  DateTime? workDurationFromDate;
+  DateTime? workDurationToDate;
+  String? noticePeriod;
+  String? keySkills;
+  String? educationDetails;
+  String? universityName;
+  String? preferredSalary;
+  String? prefferedLocation;
+  String? resume;
+  String? photo;
 
-    Data({
-        this.umdId,
-        this.umId,
-        this.experienceYears,
-        this.experienceMonth,
-        this.currentCompany,
-        this.jobTitle,
-        this.currentSalary,
-        this.workDurationFromDate,
-        this.workDurationToDate,
-        this.noticePeriod,
-        this.keySkills,
-        this.educationDetails,
-        this.universityName,
-        this.preferredSalary,
-        this.prefferedLocation,
-        this.resume,
-        this.photo,
-    });
+  Data({
+    this.umdId,
+    this.umId,
+    this.experienceYears,
+    this.experienceMonth,
+    this.currentCompany,
+    this.jobTitle,
+    this.currentSalary,
+    this.workDurationFromDate,
+    this.workDurationToDate,
+    this.noticePeriod,
+    this.keySkills,
+    this.educationDetails,
+    this.universityName,
+    this.preferredSalary,
+    this.prefferedLocation,
+    this.resume,
+    this.photo,
+  });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         umdId: json["umdId"],
         umId: json["umId"],
         experienceYears: json["experience_years"],
@@ -83,8 +86,12 @@ class Data {
         currentCompany: json["currentCompany"],
         jobTitle: json["jobTitle"],
         currentSalary: json["currentSalary"],
-        workDurationFromDate: json["workDurationFromDate"] == null ? null : DateTime.parse(json["workDurationFromDate"]),
-        workDurationToDate: json["workDurationToDate"] == null ? null : DateTime.parse(json["workDurationToDate"]),
+        workDurationFromDate: json["workDurationFromDate"] == null
+            ? null
+            : DateTime.parse(json["workDurationFromDate"]),
+        workDurationToDate: json["workDurationToDate"] == null
+            ? null
+            : DateTime.parse(json["workDurationToDate"]),
         noticePeriod: json["noticePeriod"],
         keySkills: json["keySkills"],
         educationDetails: json["educationDetails"],
@@ -93,9 +100,9 @@ class Data {
         prefferedLocation: json["prefferedLocation"],
         resume: json["resume"],
         photo: json["photo"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "umdId": umdId,
         "umId": umId,
         "experience_years": experienceYears,
@@ -113,5 +120,5 @@ class Data {
         "prefferedLocation": prefferedLocation,
         "resume": resume,
         "photo": photo,
-    };
+      };
 }

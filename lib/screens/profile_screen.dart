@@ -29,27 +29,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => (profileController.isLoading.value)
-          ? CommonWidget.showLoader()
-          : Column(
-              children: [
-                avatarHeader(),
-                PersonalDetailCard(),
-                skillDetailsWidgetList(),
-                TextButton(
-                    onPressed: () {
-                      logoutUserDialog();
-                    },
-                    child: CustomText.title(text: "Logout", color: Colors.red))
-              ],
-            ),
+    return Scaffold(
+      appBar: CommonWidget.appBar(title: "Profile"),
+      body: Obx(
+        () => (profileController.isLoading.value)
+            ? CommonWidget.showLoader()
+            : Column(
+                children: [
+                  avatarHeader(),
+                  PersonalDetailCard(),
+                  skillDetailsWidgetList(),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        logoutUserDialog();
+                      },
+                      child:
+                          CustomText.title(text: "Logout", color: Colors.red))
+                ],
+              ),
+      ),
     );
   }
 
   logoutUserDialog() {
     Get.defaultDialog(
-      titlePadding: EdgeInsets.only(top: 15.h,bottom: 10.h),
+        titlePadding: EdgeInsets.only(top: 15.h, bottom: 10.h),
         title: "Log Out",
         titleStyle: const TextStyle(fontSize: 18),
         middleText: "Are you sure you want to log out?",
@@ -81,13 +88,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Wrap(
             children: periodList
-                .map((e) => CustomActionChip(title: e, onPressed: (s) {})
-                    .paddingSymmetric(horizontal: 0.h))
+                .map((e) => CustomActionChip(
+                      title: e,
+                      onPressed: (s) {},
+                      transform: 0.9,
+                    ).paddingSymmetric(horizontal: 0.h))
                 .toList()),
       ],
-    )
-        .paddingSymmetric(horizontal: 15.h)
-        .visible(periodList.isNotEmpty);
+    ).paddingSymmetric(horizontal: 15.h).visible(periodList.isNotEmpty);
   }
 
   Column avatarHeader() {

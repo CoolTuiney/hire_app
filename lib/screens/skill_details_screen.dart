@@ -101,6 +101,7 @@ class _SkillDetailsScreenState extends State<SkillDetailsScreen> {
     return Wrap(
         children: empmentController.educationList
             .map((e) => CustomActionChip(
+                  transform: 0.9,
                   title: e.title,
                   isSelected: e.isSelected,
                   onPressed: (p0) {

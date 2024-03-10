@@ -7,16 +7,15 @@ import '../service/response_handler.dart';
 
 class HomeScreenController extends GetxController {
   GetJobModel? getJobModel;
-  var isLoading = false.obs;
+  var isLoading = true.obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getJobDetailList();
   }
 
   getJobDetailList() async {
-    isLoading.value = true;
+    // isLoading.value = true;
     var res = await DioClient().get(EndPoints.getjobPost);
     getJobModel = jsonToObject(res, getJobModelFromJson);
     isLoading.value = false;
