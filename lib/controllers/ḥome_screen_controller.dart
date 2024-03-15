@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hire_app/models/get_job_model.dart';
 
@@ -7,6 +8,8 @@ import '../service/response_handler.dart';
 
 class HomeScreenController extends GetxController {
   GetJobModel? getJobModel;
+  final searchTFCont = TextEditingController();
+
   var isLoading = true.obs;
 
   @override

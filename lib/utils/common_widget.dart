@@ -394,3 +394,89 @@ class _CustomTFState extends State<CustomTF> {
     );
   }
 }
+
+class CustomSearchTF extends StatefulWidget {
+  CustomSearchTF(
+      {super.key,
+      this.hint = "",
+      this.lable,
+      this.helperTxt,
+      this.keyboardType,
+      this.showObscure = false,
+      this.validator,
+      this.formatter,
+      this.onTap,
+      this.isReadyOnly = false,
+      this.maxLine,
+      this.controller});
+  final String? lable;
+  final String? hint;
+  final String? helperTxt;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final bool showObscure;
+  final bool isReadyOnly;
+  final Function(String)? validator;
+  final List<TextInputFormatter>? formatter;
+  final int? maxLine;
+  void Function()? onTap;
+  @override
+  State<CustomSearchTF> createState() => _CustomSearchTFState();
+}
+
+class _CustomSearchTFState extends State<CustomSearchTF> {
+  late bool isObsure;
+
+  @override
+  void initState() {
+    super.initState();
+    isObsure = widget.showObscure;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
+      obscureText: isObsure,
+      inputFormatters: widget.formatter,
+      readOnly: widget.isReadyOnly,
+      // maxLines: widget.maxLine,
+      onTap: widget.onTap,
+      validator: (value) {
+        if (widget.validator != null) {
+          return widget.validator!(value ?? "");
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        isDense: true,
+        helperText: widget.helperTxt,
+        labelText: widget.lable,
+        
+        hintText: widget.hint,
+        prefixIcon: GestureDetector(
+                onTap: () => setState(() => isObsure = !isObsure),
+                child: const Icon(
+                   Icons.search,
+                  size: 24,
+                  color: AppTheme.secondaryTextColor,
+                ))
+            ,
+        labelStyle: const TextStyle(color: AppTheme.primaryTextColor),
+        helperStyle: const TextStyle(color: AppTheme.secondaryTextColor),
+        hintStyle: const TextStyle(color: AppTheme.secondaryTextColor),
+        border:   OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.h),
+                borderSide:  const BorderSide(color: AppTheme.secondaryTextColor),
+            ),
+
+            enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.h),
+                borderSide:  const BorderSide(color: AppTheme.secondaryTextColor,),
+            ),
+      ),
+      
+    );
+  }
+}
